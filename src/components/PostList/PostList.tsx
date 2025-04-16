@@ -1,20 +1,16 @@
 import React from 'react';
 import { PostInfo } from '../PostInfo';
 
-import { Post } from '../../types/Post';
-import { User } from '../../types/User';
-import { Comment } from '../../types/Comment';
+import { MergedPost } from '../../types/MergedPost';
 
 interface Props {
-  posts: Post[];
-  users: User[];
-  comments: Comment[];
+  posts: MergedPost[];
 }
 
-export const PostList: React.FC<Props> = ({ posts, users, comments }) => (
+export const PostList: React.FC<Props> = ({ posts }) => (
   <div className="PostList">
     {posts.map(post => (
-      <PostInfo post={post} users={users} comments={comments} key={post.id} />
+      <PostInfo post={post} key={post.id} />
     ))}
   </div>
 );

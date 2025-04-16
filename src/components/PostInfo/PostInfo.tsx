@@ -1,7 +1,6 @@
 import React from 'react';
-import { Post } from '../../types/Post';
-import { User } from '../../types/User';
-import { Comment } from '../../types/Comment';
+
+import { MergedPost } from '../../types/MergedPost';
 
 import { UserInfo } from '../UserInfo';
 import { CommentList } from '../CommentList';
@@ -9,35 +8,28 @@ import { CommentList } from '../CommentList';
 import './PostInfo.scss';
 
 interface Props {
-  post: Post;
-  users: User[];
-  comments: Comment[];
+  post: MergedPost;
 }
 
-export const PostInfo: React.FC<Props> = ({ post, users, comments }) => {
-  const postUser = users.find(user => post.userId === user.id);
-  const postComments = comments.filter(comment => post.id === comment.postId);
+export const PostInfo: React.FC<Props> = ({ post }) => (
+  <div className="PostInfo">
+    <div className="PostInfo__header">
+      <h3 className="PostInfo__title">{post.title}</h3>
 
-  return (
-    <div className="PostInfo">
-      <div className="PostInfo__header">
-        <h3 className="PostInfo__title">{post.title}</h3>
+      <p>
+        {` Posted by  `}
 
-        <p>
-          {` Posted by  `}
-
-          {postUser && <UserInfo user={postUser} />}
-        </p>
-      </div>
-
-      <p className="PostInfo__body">{post.body}</p>
-
-      <hr />
-      {postComments.length > 0 ? (
-        <CommentList comments={postComments} />
-      ) : (
-        <b data-cy="NoCommentsMessage">No comments yet</b>
-      )}
+        {post.user && <UserInfo user={post.user} />}
+      </p>
     </div>
-  );
-};
+
+    <p className="PostInfo__body">{post.body}</p>
+
+    <hr />
+    {post.comments.length > 0 ? (
+      <CommentList comments={post.comments} />
+    ) : (
+      <b data-cy="NoCommentsMessage">No comments yet</b>
+    )}
+  </div>
+);
